@@ -6,9 +6,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+       flash[:success] = 'Post was successfully updated.'
        redirect_to login_path
     else
-       render :new
+        flash[:danger] = 'User create failed'
+        render :new
     end
   end
     
