@@ -3,24 +3,20 @@ class UserSessionsController < ApplicationController
   def new; end
 
   def create
-    @user = User.find_by(email: session_params[:email])
-    
-    if @user&.authenticate(session_params[:password])
-      session[:user_id] = user.id
-      flash[:success] = 'Login successful.'
-      redirect_to root_url 
+    @user = login(params[:email], params[:password])
+
+    if @user
+      redirect_back_or_to(:posts, notice: 'Login successful')
     else
-      flash[:danger] = 'Login failed.'
-      render :new
+      flash.now[:alert] = 'Login failed'
+      render action: 'new'
     end
   end
 
   def destroy
-    reset_session
-    flash[:success] = 'Loginout.'
-    redirect_to root_url 
+    logout
+    redirect_to "/login", notice: 'logout successful'
   end
-
 
   private
 
