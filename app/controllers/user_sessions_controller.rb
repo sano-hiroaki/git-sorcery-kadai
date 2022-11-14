@@ -1,5 +1,4 @@
 class UserSessionsController < ApplicationController
-
   def new; end
 
   def create
@@ -23,5 +22,4 @@ class UserSessionsController < ApplicationController
   def session_params
     params.permit(:email, :password)
   end
-
 end
